@@ -1,4 +1,5 @@
 <?
+// $Id$
 
 function elysia_cron_install() {
   // elysia_cron MUST be the first returned by module_list

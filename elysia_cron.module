@@ -1,5 +1,5 @@
 <?php
-// $Id $
+// $Id$
 
 /**
  * ELYSIA_CRON
@@ -24,7 +24,7 @@
  * - "set as terminated" on running jobs/contexts
  * - confirm page for "reset statistics"
  * - better internationalization
- * - sort jobs on summary page 
+ * - detect system time "jumps" (if a check occurs BEFORE previous check)
  */
 
 /*******************************************************************************
@@ -79,12 +79,11 @@ function elysia_cron_cron() {
   // Terminate drupal cron
   variable_del('cron_semaphore', time());
   
-  if (variable_get('elysia_cron_runtime_replacement', false)) {
+  //if (variable_get('elysia_cron_runtime_replacement', false)) {
     elysia_cron_run();
     
-  } else {
-    watchdog('elysia_cron', 'Standard drupal cron started (and should not!), forced termination. Please check elysia_cron installation.', WATCHDOG_ERROR);
-  }
+  //} else
+  //  watchdog('elysia_cron', 'Standard drupal cron started (and should not!), forced termination. Please check elysia_cron installation.', WATCHDOG_ERROR);
   
   exit();
 }
@@ -307,7 +306,7 @@ EOT
     '#collapsible' => true,
     '#collapsed' => true,
   );
-  
+  /*
   $form['installation']['elysia_cron_runtime_replacement'] = array(
     '#title' => 'Runtime replacement',
     '#type' => 'checkbox',
@@ -317,6 +316,7 @@ EOT
       'with it (cancelling the rest of the standard call). The only drawback is a little'.
       'overhead.'
   );
+  */
   
   $form['installation']['elysia_cron_key'] = array(
     '#title' => 'Cron key',
@@ -580,6 +580,7 @@ function elysia_cron_initialize($skipscript = false) {
       elysia_cron_decode_script($script);
   }
   
+  ksort($elysia_cron_settings);
   foreach ($elysia_cron_settings as $job => &$conf) {
     $conf['last_run'] = variable_get('elysia_cron_'.$job.'_last_run', 0);
     $conf['last_execution_time'] = variable_get('elysia_cron_'.$job.'_last_execution_time', 0);
@@ -590,6 +591,7 @@ function elysia_cron_initialize($skipscript = false) {
   }
 
   foreach ($elysia_cron_settings_by_context as $context => $data) {
+    ksort($elysia_cron_settings_by_context[$context]);
     $elysia_cron_settings_by_context[$context]['#data'] = array(
       'disabled' => variable_get('elysia_cron_ctx_'.$context.'_disabled', false),
       //'running' => variable_get('elysia_cron_ctx_'.$context.'_running', false),
