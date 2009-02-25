@@ -79,14 +79,13 @@ function elysia_cron_perm() {
  * elysia_cron_runtime_replacement is true). 
  */
 function elysia_cron_cron() {
-  // Terminate drupal cron
-  _ec_variable_del('cron_semaphore', time());
-  
   //if (_ec_variable_get('elysia_cron_runtime_replacement', false)) {
     elysia_cron_run();
-    
   //} else
   //  watchdog('elysia_cron', 'Standard drupal cron started (and should not!), forced termination. Please check elysia_cron installation.', WATCHDOG_ERROR);
+    
+  // Terminate drupal cron
+  _ec_variable_del('cron_semaphore');
   
   exit();
 }
@@ -179,7 +178,7 @@ function elysia_cron_check_version_update() {
  ******************************************************************************/
 
 /**
- * A substitute for _ec_variable_get to avoid cache management
+ * A substitute for variable_get to avoid cache management
  * WARN_UPGRADE
  */
 function _ec_variable_get($name, $default) {
@@ -206,7 +205,7 @@ function _ec_variable_get($name, $default) {
 }
 
 /**
- * A substitute for _ec_variable_set to avoid cache management
+ * A substitute for variable_set to avoid cache management
  * WARN_UPGRADE
  */
 function _ec_variable_set($name, $value) {
@@ -217,7 +216,7 @@ function _ec_variable_set($name, $value) {
 }
 
 /**
- * A substitute for _ec_variable_del to avoid cache management
+ * A substitute for variable_del to avoid cache management
  * WARN_UPGRADE
  */
 function _ec_variable_del($name) {
@@ -1339,4 +1338,3 @@ function theme_elysia_cron_description($job) {
     default: return '-';
   }
 }
-?>

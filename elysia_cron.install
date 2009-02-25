@@ -1,6 +1,9 @@
-<?
+<?php
 // $Id$
 
+/**
+ * Implementation of hook_install().
+ */
 function elysia_cron_install() {
   // elysia_cron MUST be the first returned by module_list
   // This is to ensure elysia_cron_cron is the first hook called by standard cron.php.
@@ -14,6 +17,9 @@ function elysia_cron_install() {
   drupal_set_message('Elysia cron installed. Setup could be found at '.l(t('Settings page'), 'admin/build/cron/settings').'. Remember to replace cron.php or to enable "runtime replacement" in setup page, and to change system crontab schedule. See INSTALL.TXT for more info.');
 }
 
+/**
+ * Implementation of hook_uninstall().
+ */
 function elysia_cron_uninstall() {
   $rs = db_query("select name from {variable} where name like 'elysia_cron_%%'");
   while ($o = db_fetch_object($rs))
