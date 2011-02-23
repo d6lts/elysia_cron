@@ -7,7 +7,7 @@ function elysia_cron_schema() {
       'name' => array('type' => 'varchar', 'length' => 120, 'not null' => TRUE ),
       'disabled' => array('type' => 'int', 'size' => 'tiny', 'not null' => TRUE, 'default' => 0 ),
       'rule' => array('type' => 'varchar', 'length' => 32 ),
-      'weight' => array('type' => 'int', 'not null' => TRUE, 'default' => 0 ),
+      'weight' => array('type' => 'int', 'not null' => FALSE),
       'context' => array('type' => 'varchar', 'length' => 32 ),
       'running' => array('type' => 'int', 'not null' => TRUE, 'default' => 0 ),
       'last_run' => array('type' => 'int', 'not null' => TRUE, 'default' => 0 ),
@@ -63,3 +63,5 @@ function elysia_cron_update_1() {
   variable_del('elysia_cron_key');
   return array();
 }
+
+// Remember use the new update_xxxx convention (6001...)
