@@ -179,7 +179,7 @@ function elysia_cron_check_version_update() {
       // D7
       // Must use "$v" for PHP5.3 running D6 version (detect the error even if it doesn't pass here)
       db_change_field($v = 'elysia_cron', 'weight', 'weight', array('type' => 'int', 'not null' => FALSE));
-      
+
     } elseif (EC_DRUPAL_VERSION >= 6) {
       // D6
       $ret = array();
