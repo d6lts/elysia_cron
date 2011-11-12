@@ -10,9 +10,9 @@ function elysia_cron_install() {
       case 'mysql':
         db_query("create table if not exists {elysia_cron} (
           name varchar(120) not null,
-          disabled tinyint(1) not null default '0',
+          disable tinyint(1),
           rule varchar(32),
-          weight int(11) not null default '0',
+          weight int(11),
           context varchar(32),
           running int(11) not null default '0',
           last_run int(11) not null default '0',
@@ -30,9 +30,9 @@ function elysia_cron_install() {
       case 'pgsql':
         db_query("create table {elysia_cron} (
           name varchar(120) not null,
-          disabled smallint not null default '0',
+          disable smallint,
           rule varchar(32),
-          weight integer not null default '0',
+          weight integer,
           context varchar(32),
           running integer not null default '0',
           last_run integer not null default '0',
