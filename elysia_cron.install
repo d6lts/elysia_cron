@@ -131,7 +131,8 @@ function elysia_cron_install() {
   }
   db_query("UPDATE {system} SET weight = %d WHERE name = '%s'", $min, 'elysia_cron');
   
-  variable_set('elysia_cron_version', 20100507);
+  module_load_include('module', 'elysia_cron');
+  variable_set('elysia_cron_version', elysia_cron_version());
   
   drupal_set_message('Elysia cron installed. Setup could be found at ' . l(t('Settings page'), 'admin/build/cron/settings') . '. See INSTALL.TXT for more info.');
 }
