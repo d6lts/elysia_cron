@@ -99,21 +99,27 @@ function _elysia_cron_ctools_export_load_object_db_and_code($object, $code_objec
   }
   $object->table = 'elysia_cron';
   $object->export_type = EXPORT_IN_DATABASE | EXPORT_IN_CODE;
-  $object->{$export['export type string']} = $overridden ? t('Overridden') : t('Normal');
+  if (!empty($export['export type string'])) {
+    $object->{$export['export type string']} = $overridden ? t('Overridden') : t('Normal');
+  }
   return $object;
 }
 
 function _elysia_cron_ctools_export_load_object_db($object, $export) {
   $object->table = 'elysia_cron';
   $object->export_type = EXPORT_IN_DATABASE;
-  $object->{$export['export type string']} = t('Normal');
+  if (!empty($export['export type string'])) {
+    $object->{$export['export type string']} = t('Normal');
+  }
   return $object;
 }
 
 function _elysia_cron_ctools_export_load_object_code($object, $export) {
   $object->table = 'elysia_cron';
   $object->export_type = EXPORT_IN_CODE;
-  $object->{$export['export type string']} = t('Default');
+  if (!empty($export['export type string'])) {
+    $object->{$export['export type string']} = t('Default');
+  }
   $object->in_code_only = TRUE;
   return $object;
 }
