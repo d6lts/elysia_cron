@@ -100,16 +100,22 @@ function _dcf_theme_form(&$args) {
 }
 
 /***************************************************************
- * D6 MISSING FUNCTIONS 
- ***************************************************************/
+  * D6 MISSING FUNCTIONS 
+  ***************************************************************/
 
 function drupal_render_children($form) {
-  return drupal_render(_dcr_form($form));
+  $f = _dcr_form($form);
+  return drupal_render($f);
+}
+
+// Prevent session information from being saved while cron is running.
+function drupal_save_session($v) {
+  // Unsupported
 }
 
 /***************************************************************
- * D6 EXTRA FUNCTIONS 
- ***************************************************************/
+  * D6 EXTRA FUNCTIONS 
+  ***************************************************************/
 
 function drupal_module_get_min_weight($except_module = false) {
   return !$except_module ? db_result(db_query("select min(weight) from {system}")) :
@@ -122,4 +128,19 @@ function drupal_module_get_weight($name) {
 
 function drupal_module_set_weight($name, $weight) {
   db_query("update {system} set weight = %d where name = '%s'", $weight, $name);
+}
+
+function drupal_disable_standard_cron() {
+  global $conf;
+  // I need to set cron_semaphore always to false. That way standard drupal cron is always bypassed
+  $conf['cron_semaphore'] = false;
+}
+
+function drupal_clean_after_cron_run() {
+  // I must check for cron_semaphore and delete it if set (is not always deleted by elysia_cron_run, and this situation is only when called by drupal cron, so a check here is right)
+  if (variable_get('cron_semaphore', false)) {
+    global $conf;
+    _ec_variable_del('cron_semaphore');
+    $conf['cron_semaphore'] = false;
+  }
 }
