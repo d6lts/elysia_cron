@@ -108,9 +108,12 @@ function drupal_render_children($form) {
   return drupal_render($f);
 }
 
-// Prevent session information from being saved while cron is running.
-function drupal_save_session($v) {
-  // Unsupported
+// drupal_save_session has been introduced in later D6 versions
+if (!function_exists('drupal_save_session')) {
+  // Prevent session information from being saved while cron is running.
+  function drupal_save_session($v) {
+    // Unsupported
+  }
 }
 
 /***************************************************************
