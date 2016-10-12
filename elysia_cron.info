@@ -1,3 +1,8 @@
 name = "Elysia Cron"
 description = "Extended cron support with crontab-like scheduling and other features."
 core = 6.x
+; Information added by Drupal 6 LTS vendors on 2016-10-12
+version = "6.x-2.2"
+core = "6.x"
+project = "elysia_cron"
+datestamp = "1476296200"
