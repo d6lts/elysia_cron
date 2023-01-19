@@ -35,7 +35,7 @@ function _dcf_convert_render_array(&$a) {
 
 function _dcr_render_array($output) {
   foreach ($output as $k => &$v)
-    if ((is_numeric($k) || $k{0} != '#') && is_string($v))
+    if ((is_numeric($k) || $k[0] != '#') && is_string($v))
       $v = array( '#type' => 'markup', '#value' => $v, '#weight' => -1 );
   _dcf_convert_render_array($output);
   return drupal_render($output);
@@ -43,7 +43,7 @@ function _dcr_render_array($output) {
 
 function _dcr_form(&$form) {
   foreach ($form as $k => &$v)
-    if ((is_numeric($k) || $k{0} != '#') && is_string($v))
+    if ((is_numeric($k) || $k[0] != '#') && is_string($v))
       $v = array( '#type' => 'markup', '#value' => $v, '#weight' => -1 );
   _dcf_convert_render_array($form);
   return $form;

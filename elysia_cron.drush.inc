@@ -88,7 +88,7 @@ function drush_elysia_cron_run_wrapper($op = false, $target = false) {
   if (!$verbose) {
     $verbose = drush_get_option("elysia-cron-verbose", false);
   }
-  $elysia_cron_drush = $quiet ? 1 : !$verbose ? 2 : 3; 
+  $elysia_cron_drush = $quiet ? 1 : (!$verbose ? 2 : 3);
   
   switch ($op) {
     case 'list':
@@ -109,8 +109,8 @@ function drush_elysia_cron_run_wrapper($op = false, $target = false) {
             $line[] = "Last run: " . elysia_cron_date(_ec_variable_get('elysia_cron_last_run', 0));
           }
         }
-        drush_print(implode($line, ", "));
-        foreach ($jobs as $job => $conf) if ($job{0} != '#') {
+        drush_print(implode(', ', $line));
+        foreach ($jobs as $job => $conf) if ($job[0] != '#') {
           if (!$verbose) {
             $line = array($job);
           } else {
@@ -128,7 +128,7 @@ function drush_elysia_cron_run_wrapper($op = false, $target = false) {
               $line[] = "Last run: " . elysia_cron_date($conf['last_run']);
             }
           }
-          drush_print(implode($line, ", "));
+          drush_print(implode(', ', $line));
         }
       }
       break;
@@ -138,7 +138,7 @@ function drush_elysia_cron_run_wrapper($op = false, $target = false) {
         elysia_cron_run(true, drush_get_option("ignore-disable", false), drush_get_option("ignore-time", false), drush_get_option("ignore-running", false));
         //drush_log("Cron run complete", "completed");
       }
-      elseif ($target{0} == '@') {
+      elseif ($target[0] == '@') {
         elysia_cron_initialize();
         if (elysia_cron_channel_exists(substr($target, 1))) {
           elysia_cron_run_channel(substr($target, 1), drush_get_option("ignore-disable", false), drush_get_option("ignore-time", false), drush_get_option("ignore-running", false));
@@ -161,7 +161,7 @@ function drush_elysia_cron_run_wrapper($op = false, $target = false) {
     case 'disable':
     case 'enable':
       if (!empty($target)) {
-        if ($target{0} == '@') {
+        if ($target[0] == '@') {
           elysia_cron_set_channel_disabled(substr($target, 1), $op == 'disable');
         } else {
           elysia_cron_set_job_disabled($target, $op == 'disable');

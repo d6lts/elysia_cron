@@ -776,7 +776,7 @@ function elysia_cron_decode_script($text, $apply = true) {
   foreach ($lines as $line) {
     $line = trim($line);
     if (!empty($line)) {
-      if ($line{0} == '#') {
+      if ($line[0] == '#') {
         $lastcomment = trim(substr($line, 1));
 
       }
